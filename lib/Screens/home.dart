@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:finance_app/data/model/add_date.dart';
 import 'package:finance_app/data/utlity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -67,7 +68,7 @@ class _HomeState extends State<Home> {
                     },
                     childCount: box.length,
                   ),
-                )
+                ),
               ],
             );
           }),
@@ -136,13 +137,23 @@ class _HomeState extends State<Home> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Container(
-                        height: 40,
-                        width: 40,
+                        height: 60,
+                        width: 100 ,
                         color: Color.fromRGBO(250, 250, 250, 0.1),
-                        child: Icon(
-                          Icons.notifications,
-                          size: 20,
-                          color: Colors.white,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.notifications,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                           
+                            GestureDetector(
+                                onTap: () {
+                                  FirebaseAuth.instance.signOut();
+                                },
+                                child: Icon(Icons.logout_rounded))
+                          ],
                         ),
                       ),
                     ),
@@ -288,19 +299,21 @@ class _HomeState extends State<Home> {
                 ),
                 SizedBox(height: 6),
                 Padding(
-                  padding: const EdgeInsets.only(left:25, top:2),
+                  padding: const EdgeInsets.only(left: 25, top: 2),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                      '\₹ ${income()}',
+                        '\₹ ${income()}',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 17,
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 111,),
+                      SizedBox(
+                        width: 111,
+                      ),
                       Text(
                         '\₹ ${expenses()}',
                         style: TextStyle(
