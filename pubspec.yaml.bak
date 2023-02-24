@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -30,48 +30,34 @@ dependencies:
   flutter:
     sdk: flutter
   syncfusion_flutter_charts: ^20.2.44
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
   intl: ^0.17.0
-  firebase_core: ^2.4.1
-  cloud_firestore: ^4.3.1
-  google_fonts:
-  firebase_auth: ^4.2.5
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  flutter_slidable:
-  curved_navigation_bar:
-  hive:
-  hive_flutter:
-  get:
-  smooth_page_indicator:
-  lottie:
-  internet_connection_checker:
-  overlay_support:
-  flutter_heatmap_calendar:
-  percent_indicator:
-  animated_text_kit:
-  quickalert:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   hive_generator: ^1.1.3
   build_runner: ^2.2.0
-  flutter_launcher_icons:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -94,7 +80,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: "s"
+    - family: 's'
       fonts:
         - asset: fonts/Roboto-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
