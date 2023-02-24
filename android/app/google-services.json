@@ -1,40 +1,40 @@
 {
   "project_info": {
-    "project_number": "833673625104",
-    "project_id": "habit-tracker-app-844d4",
-    "storage_bucket": "habit-tracker-app-844d4.appspot.com"
+    "project_number": "960792720630",
+    "project_id": "finance-management-app-30b1f",
+    "storage_bucket": "finance-management-app-30b1f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:833673625104:android:87d4faa46e35fe5fc59495",
+        "mobilesdk_app_id": "1:960792720630:android:f925e8bf01feaa76fb28d7",
         "android_client_info": {
-          "package_name": "com.example.habit_tracker"
+          "package_name": "com.example.management"
         }
       },
       "oauth_client": [
         {
-          "client_id": "833673625104-m3db8tcj56ogbb563k5r8af35p5to7pg.apps.googleusercontent.com",
+          "client_id": "960792720630-l37tuc73k28k28h697qqhpejt0ij36on.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAapnBJ20-moV2wlhqB_jmJL5gkdEII3SA"
+          "current_key": "AIzaSyCBCYQFEDMEuHNHMnolUkaI-tvT2xpAbmY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "833673625104-m3db8tcj56ogbb563k5r8af35p5to7pg.apps.googleusercontent.com",
+              "client_id": "960792720630-l37tuc73k28k28h697qqhpejt0ij36on.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "833673625104-7e838pgmjvs9is096ked82mnonslhadu.apps.googleusercontent.com",
+              "client_id": "960792720630-e6r3o28ch3tfeo864vvm73q9bi1aa9tu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.habitTracker"
+                "bundle_id": "com.example.managment"
               }
             }
           ]

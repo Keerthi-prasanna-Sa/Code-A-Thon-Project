@@ -26,12 +26,52 @@ class _LoginPageState extends State<LoginPage> {
         return Center(child: CircularProgressIndicator());
       },
     );
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
-    // pop the loading circle
-    Navigator.of(context).pop();
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      // pop the loading circle
+      Navigator.of(context).pop();
+    } on FirebaseAuthException catch (e) {
+      // pop the loading circle
+      Navigator.of(context).pop();
+      if (e.code == 'wrong-password') {
+        // show wrong password popup
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Wrong password'),
+              content: Text('The password you entered is incorrect.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // show generic error message
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('An error occurred while signing in.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
   }
 
   @override
@@ -52,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.android_rounded,
+                    Icons.phone_android,
                     size: 200,
                   ),
                   SizedBox(height: 75),
