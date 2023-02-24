@@ -91,9 +91,14 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  /*  Icon(
                     Icons.phone_android,
                     size: 200,
+                  ), */
+                  Image.asset(
+                    'images/finance.png',
+                    width: 200,
+                    height: 200,
                   ),
                   SizedBox(height: 75),
                   //Hello
