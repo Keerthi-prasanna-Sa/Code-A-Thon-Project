@@ -67,7 +67,7 @@ class _BottomState extends State<Bottom> {
                   });
                 },
                 child: Icon(
-                  Icons.account_balance_wallet_outlined,
+                  Icons.swap_vert_outlined,
                   size: 30,
                   color: index_color == 2 ? Color(0xff368983) : Colors.grey,
                 ),
