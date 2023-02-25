@@ -1,3 +1,4 @@
+import 'package:finance_app/onboarding/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_app/widgets/bottomnavigationbar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,6 +10,7 @@ import 'onboarding/splash_screen.dart';
 import 'onboarding/main_page.dart';
 import 'package:provider/provider.dart';
 import 'onboarding/splash_screen.dart';
+import 'package:finance_app/data/model/routes.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -31,10 +33,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Finance Management App',
         initialRoute: '/',
-        
-        routes: {
-          "/" : (context)=> SplashScreen(title: 'Finology')
-        }
+        home: SplashScreen(title: "Finance app"),
+
+        // routes: {
+        //   "/" : (context)=> SplashScreen(title: 'Finology'),
+        //  // "":(context) => LoginScreen(key: key),
+        //  Routes.loginScreen: (context) => LoginScreen(),
+        //  Routes.signUpScreen: (context)=> SignUpScreen()
+        // }
       ),
     );
   }

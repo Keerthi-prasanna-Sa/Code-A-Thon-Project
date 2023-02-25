@@ -1,8 +1,13 @@
+import 'dart:ui';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'Login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  final VoidCallback showLoginPage;
+  const SignUpScreen({Key? key, required this.showLoginPage}) : super(key: key);
 
   @override
   _SignUpScreen createState() => _SignUpScreen();
@@ -12,11 +17,17 @@ class _SignUpScreen extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _namempasswordController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _ageController = TextEditingController();
   @override
   void dispose() {
     _namempasswordController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _ageController.dispose();
     super.dispose();
   }
 
@@ -24,6 +35,14 @@ class _SignUpScreen extends State<SignUpScreen> {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim());
+    addUserDetails(_firstNameController.text.trim(),
+        _lastNameController.text.trim(), _emailController.text.trim());
+  }
+
+  Future addUserDetails(String firstName, String lastName, String email) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .add({'first name': firstName, 'last name': lastName, 'email': email});
   }
 
   @override
@@ -60,9 +79,34 @@ class _SignUpScreen extends State<SignUpScreen> {
                       margin: EdgeInsets.only(left: 35, right: 35),
                       child: Column(
                         children: [
+                          //TextField(
+                          //   style: TextStyle(color: Colors.white),
+                          //   controller: _namempasswordController,
+                          //   decoration: InputDecoration(
+                          //       enabledBorder: OutlineInputBorder(
+                          //         borderRadius: BorderRadius.circular(10),
+                          //         borderSide: BorderSide(
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //       focusedBorder: OutlineInputBorder(
+                          //         borderRadius: BorderRadius.circular(10),
+                          //         borderSide: BorderSide(
+                          //           color: Colors.black,
+                          //         ),
+                          //       ),
+                          //       hintText: "Name",
+                          //       hintStyle: TextStyle(color: Colors.white),
+                          //       border: OutlineInputBorder(
+                          //         borderRadius: BorderRadius.circular(10),
+                          //       )),
+                          // ),
+                          SizedBox(
+                            height: 30,
+                          ),
                           TextField(
                             style: TextStyle(color: Colors.white),
-                            controller: _namempasswordController,
+                            controller: _firstNameController,
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -76,7 +120,32 @@ class _SignUpScreen extends State<SignUpScreen> {
                                     color: Colors.black,
                                   ),
                                 ),
-                                hintText: "Name",
+                                hintText: "First Name",
+                                hintStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          TextField(
+                            style: TextStyle(color: Colors.white),
+                            controller: _lastNameController,
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "Last Name",
                                 hintStyle: TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -167,9 +236,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, 'Login_screen');
-                                },
+                                onPressed: widget.showLoginPage,
                                 child: Text(
                                   'Sign In',
                                   textAlign: TextAlign.left,

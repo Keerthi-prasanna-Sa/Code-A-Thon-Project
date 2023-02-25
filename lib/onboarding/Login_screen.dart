@@ -11,7 +11,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 //  import 'package:finology/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  final VoidCallback showSignUp;
+  const LoginScreen({Key? key,  required this.showSignUp}) : super(key: key);
 
   @override
   _LoginScreen createState() => _LoginScreen();
@@ -69,7 +70,7 @@ class _LoginScreen extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     ScreenUtils.logger.i("loginScreen");
-    ScreenUtils.logger.e("this is an error");
+
     return Container(
       decoration: BoxDecoration(
         color: Color(0xff368983),
@@ -155,19 +156,7 @@ class _LoginScreen extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                onPressed: () {
-                                  ap.isSignedIn == true
-                                      ? Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const SignUpScreen()))
-                                      : Navigator.push(
-                                          context,
-                                          new MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SignUpScreen()));
-                                },
+                                onPressed: widget.showSignUp,
                                 child: Text(
                                   'Sign Up',
                                   textAlign: TextAlign.left,
@@ -188,75 +177,61 @@ class _LoginScreen extends State<LoginScreen> {
                                       fontSize: 18,
                                     ),
                                   )),
-                              
                             ],
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          Padding(padding: const EdgeInsets.symmetric(horizontal: 26.0),
-                          child: GestureDetector(
-                            onTap: () async {
-                                 UserCredential userCredential =
+                          Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 26.0),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  UserCredential userCredential =
                                       await signInWithGoogle();
-                                   User? user = userCredential.user;
-                               },
-                            child: Container(
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                                boxShadow: [BoxShadow(
-                                  color: Colors.grey.shade200,
-                                  blurRadius: 10.0,
-                                  spreadRadius: 2.0,
-                                 ),]
-                              
-                              
-                            ),child: Row(children: [
-                              SizedBox(
-                                height: 30,
-                                width:30,
-                                child: Image.network('http://pngimg.com/uploads/google/google_PNG19635.png',
-                                fit: BoxFit.cover),
-                              ),
-                              SizedBox( width: 30),
-                              Text("Google Sign-in", style: TextStyle(fontWeight: FontWeight.w300
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              , fontSize:20 ),)
-                            ]),),
-                          )
-                          // ElevatedButton(
-                          //       onPressed: () async {
-                          //         UserCredential userCredential =
-                          //             await signInWithGoogle();
-                          //         User? user = userCredential.user;
-                          //       },
-                          //       child: Text('Google'),
-                          //     )
-                       ) ],
+                                  User? user = userCredential.user;
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade200,
+                                          blurRadius: 10.0,
+                                          spreadRadius: 2.0,
+                                        ),
+                                      ]),
+                                  child: Row(children: [
+                                    SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: Image.network(
+                                          'http://pngimg.com/uploads/google/google_PNG19635.png',
+                                          fit: BoxFit.cover),
+                                    ),
+                                    SizedBox(width: 30),
+                                    Text(
+                                      "Google Sign-in",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 20),
+                                    )
+                                  ]),
+                                ),
+                              )
+                              // ElevatedButton(
+                              //       onPressed: () async {
+                              //         UserCredential userCredential =
+                              //             await signInWithGoogle();
+                              //         User? user = userCredential.user;
+                              //       },
+                              //       child: Text('Google'),
+                              //     )
+                              )
+                        ],
                       ),
                     )
                   ],

@@ -52,10 +52,10 @@ class _ProfileState extends State<Profile> {
                             borderRadius:
                                  BorderRadius.all(Radius.circular(20.0)),
                                  
-                            child: Image.network(user.photoURL!))),
+                            child: Image.asset("images/Keerthi.png"))),
                      Padding(
                       padding: EdgeInsets.only(top: 16.0 / 2),
-                      child: Text(user.displayName!),
+                      child: Text("keerthi prasanna"),
                     ),
                      Padding(
                       padding: EdgeInsets.only(bottom: 16 / 2),
