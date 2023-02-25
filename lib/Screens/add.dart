@@ -45,14 +45,33 @@ class _Add_ScreenState extends State<Add_Screen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('Add Transaction',
+        style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white),
+        ),
+        backgroundColor: Color(0xff368983),
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
             background_container(context),
             Positioned(
-              top: 90,
+              top: 30,
               child: main_container(),
             ),
           ],
@@ -65,25 +84,76 @@ class _Add_ScreenState extends State<Add_Screen> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(width: 5, color: Color(0xff368983)),
         color: Colors.white,
       ),
-      height: 530,
-      width: 340,
+      height: 520,
+      width: 360,
       child: Column(
         children: [
-          SizedBox(height: 50),
-          name(),
           SizedBox(height: 30),
-          explain(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                        Icons.batch_prediction_rounded,
+                        color: Color(0xff368983),
+                      ),
+              name(),
+            ],
+          ),
           SizedBox(height: 30),
-          amount(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                        Icons.article_rounded,
+                        color: Color(0xff368983),
+                      ),
+              explain(),
+            ],
+          ),
           SizedBox(height: 30),
-          How(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                        Icons.currency_rupee_rounded,
+                        color: Color(0xff368983),
+                      ),
+              amount(),
+            ],
+          ),
           SizedBox(height: 30),
-          date_time(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                        Icons.swap_vert_rounded,
+                        color: Color(0xff368983),
+                      ),
+              How(),
+            ],
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                        Icons.calendar_today_rounded,
+                        color: Color(0xff368983),
+                      ),
+              date_time(),
+            ],
+          ),
           SizedBox(height: 30),
           save(),
-          SizedBox(height: 25),
+          SizedBox(height: 30),
         ],
       ),
     );
@@ -124,7 +194,8 @@ class _Add_ScreenState extends State<Add_Screen> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 2, color: Color(0xffC5C5C5))),
-      width: 300,
+      width: 280,
+      height: 50,
       child: TextButton(
         onPressed: () async {
           DateTime? newDate = await showDatePicker(
@@ -148,9 +219,10 @@ class _Add_ScreenState extends State<Add_Screen> {
     );
   }
 
-  Padding How() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+  SizedBox How() {
+    return SizedBox(
+      height: 50,
+      width: 280,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15),
         width: 300,
@@ -204,9 +276,10 @@ class _Add_ScreenState extends State<Add_Screen> {
     );
   }
 
-  Padding amount() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+  SizedBox amount() {
+    return SizedBox(
+      height: 50,
+      width: 280,
       child: TextField(
         keyboardType: TextInputType.number,
         focusNode: amount_,
@@ -226,9 +299,10 @@ class _Add_ScreenState extends State<Add_Screen> {
     );
   }
 
-  Padding explain() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+  SizedBox explain() {
+    return SizedBox(
+      height: 50,
+      width: 280,
       child: TextField(
         focusNode: ex,
         controller: expalin_C,
@@ -247,9 +321,10 @@ class _Add_ScreenState extends State<Add_Screen> {
     );
   }
 
-  Padding name() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+  SizedBox name() {
+    return SizedBox(
+      height: 50,
+      width: 280,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15),
         width: 300,
@@ -330,39 +405,8 @@ class _Add_ScreenState extends State<Add_Screen> {
               bottomRight: Radius.circular(20),
             ),
           ),
-          child: Column(
-            children: [
-              SizedBox(height: 30),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Icon(Icons.arrow_back, color: Colors.white),
-                    ),
-                    Text(
-                      'Add Transaction',
-                      style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white),
-                    ),
-                    Icon(
-                      Icons.attach_file_outlined,
-                      color: Colors.white,
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ],
+        )
+      ]
     );
   }
 }

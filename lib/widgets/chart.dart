@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:finance_app/data/model/add_date.dart';
 import 'package:finance_app/data/utlity.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 // ignore: must_be_immutable
@@ -16,6 +17,7 @@ class _ChartState extends State<Chart> {
   List<Add_data>? a;
   bool b = true;
   bool j = true;
+
   @override
   Widget build(BuildContext context) {
     switch (widget.indexx) {
@@ -36,19 +38,32 @@ class _ChartState extends State<Chart> {
         break;
       case 3:
         a = year();
+        b = false;
         j = false;
         break;
       default:
     }
     return Container(
       width: double.infinity,
-      height: 300,
+      height: 250,
       child: SfCartesianChart(
+        
+        isTransposed: false,
+        enableAxisAnimation: true,
+        margin: const EdgeInsets.all(10),
         primaryXAxis: CategoryAxis(),
-        series: <SplineSeries<SalesData, String>>[
+        primaryYAxis: NumericAxis(
+          numberFormat: NumberFormat.compact(),
+          labelFormat: '{value}',
+          edgeLabelPlacement: EdgeLabelPlacement.shift,
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0),
+        ),
+        series: <ChartSeries<SalesData, String>>[
           SplineSeries<SalesData, String>(
             color: Color.fromARGB(255, 47, 125, 121),
-            width: 3,
+            width: 5,
+            animationDuration: 3,
             dataSource: <SalesData>[
               ...List.generate(time(a!, b ? true : false).length, (index) {
                 return SalesData(
@@ -69,6 +84,8 @@ class _ChartState extends State<Chart> {
             ],
             xValueMapper: (SalesData sales, _) => sales.year,
             yValueMapper: (SalesData sales, _) => sales.sales,
+            sortingOrder: SortingOrder.ascending,
+            sortFieldValueMapper: (SalesData data, _) => data.year
           )
         ],
       ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:finance_app/widgets/bottomnavigationbar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'data/model/add_date.dart';
 
 void main() async {

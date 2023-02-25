@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:finance_app/data/model/add_date.dart';
 import 'package:finance_app/data/utlity.dart';
+import 'package:finance_app/Screens/transactions.dart';
+import 'package:finance_app/widgets/suggestion.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:finance_app/Screens/set_budget.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -11,6 +15,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int target = 0;
+
+  void _updateData(int budget_target) {
+    setState(() {
+      target = budget_target;
+    });
+  }
+
   var history;
   final box = Hive.box<Add_data>('data');
   final List<String> day = [
@@ -18,10 +30,11 @@ class _HomeState extends State<Home> {
     "Tuesday",
     "Wednesday",
     "Thursday",
-    'friday',
-    'saturday',
-    'sunday'
+    'Friday',
+    'Saturday',
+    'Sunday'
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +44,25 @@ class _HomeState extends State<Home> {
             return CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                  child: SizedBox(height: 310, child: _head()),
+                  child: SizedBox(height: 315, child: _head()),
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text('Smart Suggestions',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 23,
+                          color: Colors.black,
+                      )
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    child: suggestion(),
+                    height: 195,
+                    )
                 ),
                 SliverToBoxAdapter(
                   child: Padding(
@@ -40,19 +71,62 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Transactions History',
+                          'Budget',
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 19,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 23,
                             color: Colors.black,
                           ),
                         ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => setBudget(callback: _updateData)));
+                          },
+                          child: Text(
+                            'Set Budget',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              color: Color(0xff368983),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(child: SizedBox(
+                  height: 80,
+                  child: _budget(),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                         Text(
-                          'See all',
+                          'Recent Transactions',
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            color: Colors.grey,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 23,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => Transactions()));
+                          },
+                          child: Text(
+                            'See All',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              color: Color(0xff368983),
+                            ),
                           ),
                         ),
                       ],
@@ -62,10 +136,10 @@ class _HomeState extends State<Home> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      history = box.values.toList()[index];
+                      history = box.values.toList()[box.length-1 - index];
                       return getList(history, index);
                     },
-                    childCount: box.length,
+                    childCount: box.length < 5 ? box.length : 5,
                   ),
                 )
               ],
@@ -113,6 +187,44 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget _budget() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      child: Column(
+        children: [
+          Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left:5.0, right: 25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                    Text("0"),
+                    Text("${target}"),
+                  ],),
+                ),
+                Container(
+                  child: LinearPercentIndicator(
+                    width: MediaQuery.of(context).size.width - 60,
+                    animation: true,
+                    lineHeight: 15.0,
+                    animationDuration: 2500,
+                    percent: target/-expenses(),
+                    linearStrokeCap: LinearStrokeCap.roundAll,
+                    progressColor: Color(0xff368983),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text("You have spent ${target/-expenses()*100 > 100 ? 100: double.parse((target/-expenses()*100).toStringAsFixed(2))}% of your budget"),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
   Widget _head() {
     return Stack(
       children: [
@@ -155,15 +267,15 @@ class _HomeState extends State<Home> {
                         Text(
                           'Hello,',
                           style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 21,
                             color: Color.fromARGB(255, 224, 223, 223),
                           ),
                         ),
                         Text(
                           'Keerthi Prasanna',
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             fontSize: 25,
                             color: Colors.white,
                           ),
@@ -205,7 +317,7 @@ class _HomeState extends State<Home> {
                       Text(
                         'Total Balance',
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           fontSize: 16,
                           color: Colors.white,
                         ),
@@ -254,7 +366,7 @@ class _HomeState extends State<Home> {
                           Text(
                             'Income',
                             style: TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               fontSize: 16,
                               color: Color.fromARGB(255, 216, 216, 216),
                             ),
@@ -276,7 +388,7 @@ class _HomeState extends State<Home> {
                           Text(
                             'Expenses',
                             style: TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               fontSize: 16,
                               color: Color.fromARGB(255, 216, 216, 216),
                             ),
@@ -292,21 +404,29 @@ class _HomeState extends State<Home> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                      '\₹ ${income()}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 17,
-                          color: Colors.white,
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                        '\₹ ${income()}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      SizedBox(width: 111,),
-                      Text(
-                        '\₹ ${expenses()}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 17,
-                          color: Colors.white,
+                      SizedBox(
+                        width: 90,
+                      ),
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          '\₹ ${expenses()}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],

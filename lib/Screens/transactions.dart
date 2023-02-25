@@ -43,7 +43,7 @@ class _TransactionsState extends State<Transactions> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      history = box.values.toList()[index];
+                      history = box.values.toList()[box.length-1-index];
                       return getList(history, index);
                     },
                     childCount: box.length,
